@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ARDVRO | Sample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <script type="text/javascript" src="https://www.ardvro.id/res/config/PageConfig.js"></script>
+    <script type="text/javascript" src="https://www.ardvro.id/res/config/WebsiteConfig.js"></script>
+    <script type="text/javascript" src="https://www.ardvro.id/res/config/WebsiteSetting.js"></script>
+    <script type="text/javascript" src="https://cdn.ardvro.com/res/js/production/ardvro.core.package.js"></script>
+    <script type="text/javascript" src="https://cdn.ardvro.com/ardvro/ardvro.js"></script>
+    <script type="text/javascript" src="https://cdn.ardvro.com/res/sample/sample.js"></script>
+    <script type="text/javascript">
+        const WEBSOCKETURL = "ardvro.id";
+        const WEBBASEURL = "https://www.ardvro.id";
+        const CDNURL = "https://cdn.ardvro.com";
+        window.onload = function () {
+            openConnection();
+        };
+        (function () {
+            Loader.InitDependencies(WEBBASEURL, CDNURL, [ArdvroCoreDependencies]);
+        })();
+    </script>
+</head>
+<body style="overflow-x:hidden;">
+    <pre id="debugDiv" style="background:#000000; color:#ffffff;">
+    </pre>
+</body>
+</html>
