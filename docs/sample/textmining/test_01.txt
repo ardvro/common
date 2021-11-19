@@ -1,0 +1,21 @@
+Basic network troubleshooting.
+
+If a computer is unable to connect to a network or see other computers on a network, it may be necessary to troubleshoot the network. A network may not work because of any of the below reasons.
+       1. Card not connected properly.
+       2. Card drivers or software settings.
+       3. Connection related issues.
+       4. Bad network hardware. 
+
+    Verify that the network cable is properly connected to the back of the computer. In addition, when checking the connection of the network cable, ensure that the LEDs on the network are properly illuminated. For example, a network card with a solid green LED or light usually indicates that the card is either connected or receiving a signal. 
+
+    If, however, the network card does not have any lights or has orange or red lights, it is possible that either the network card is not physically installed into the computer correctly, or that the card is bad, or that the network card is not receiving a signal from the network.
+
+    If you are on a small or local network and have the capability of checking a hub or switch, verify that the cables are properly connected and that the hub or switch has power.
+
+    Ensure that if this is a new network card being installed into the computer that the card's resources are properly set and/or are not conflicting with any hardware in the computer.
+
+    Verify that the network card is capable of pinging or seeing itself by using the ping command. Windows / MS-DOS users ping the computer from a MS-DOS prompt. Unix / Linux variant users ping the computer from the shell.
+
+    If you receive an error or if the transmission failed, it is likely that either the network card is not physically installed into the computer correctly, or that the card is bad.
+
+    When the TCP/IP protocol is installed, unless a DNS server or other computer assigns the IPX address, the user must specify an IP address as well as a Subnet Mask. If you have installed or are using TCP/IP as your protocol you can attempt to ping another computer's IP address to verify if the computer is able to send and receive data. 

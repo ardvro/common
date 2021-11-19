@@ -1,0 +1,127 @@
+The Penguin's Practical Network Troubleshooting Guide, Part 2
+May 9, 2006
+By Carla Schroder
+
+Last week we used ping and tcptraceroute to pinpoint connectivity problems, and nmap to spy on users. Oh yeah, and to map entire subnets with a single command. Today we'll look at ways, when your users crab about "the network is slow", to determine if it's network or server troubles.
+
+Tracking Down Network Congestion
+mtr, My Traceroute, is a great little tool for giving you a real-time snapshot of network performance. Run it like this:
+
+$ mtr -rc 100 bratgrrl.com
+
+This runs mtr for a count of 100 times and presents the output in a report format. There will always be a bit of packet loss, so one or two percent losses aren't significant. You should see results something like this sample output.
+
+The interesting part of this mtr report is items 6, 7, 8, and 9, where my poor little packets are rattling around AT&T's servers like dice in a shaker cup. AT&T and Qwest are notorious for behaving more like trampolines than routers.
+
+To see a realtime capture don't use the -r (report) option. An interesting and useful feature is to toggle the j key to see jitter statistics, which is helpful for debugging VoIP and other services that require smooth, uninterrupted data streams. We've provided some sample output.
+
+Hit the h key at any time to get help, q to quit.
+
+Testing Server Performance
+What if mtr shows a clear path to your server, but performance is still bad? Then it's time to fire up tcpdump to see what the heck is going on. (See Resources for tcpdump howtos.)
+
+Another useful tool in your server troubleshooting kit is telnet. No, really! With telnet you can query mail, Web, and FTP servers directly and actually capture useful messages that you don't see with ordinary clients. A related command is openssl s_client, part of the OpenSSL package, for testing TLS/SSL-enabled servers.
+
+Testing Mail Servers
+This is how to telnet to your SMTP server and send a test message. The lines in bold are commands that you type:
+
+$ telnet yourserver.com 25
+Trying 77.88.100.222...
+Connected to yourserver.com.
+Escape character is '^]'.
+220-host6.someserver.com ESMTP Exim 4.52 #1 Wed, 03 May 2006 19:33:34 -0400
+220-We do not authorize the use of this system to transport unsolicited,
+220 and/or bulk e-mail.
+ehlo yourserver
+250-yourserver.com
+250-PIPELINING
+250-SIZE 10240000
+250-VRFY
+250-ETRN
+250-XVERP
+250 8BITMIME
+mail from: foober@test.net
+250 Ok
+rcpt to: carla@test.net
+250 Ok
+data
+354 End data with <CR><LF>.<CR><LF>
+Date: Wed 03, 2006
+From: foober
+Reply-to: foober@test.net
+Message-ID: six
+Subject: telnet test
+Hi Carla,
+Did you get this?
+.
+250 Ok: queued as 6069F2290C
+quit
+221 Bye
+Connection closed by foreign host.
+
+This shows a number of interesting things: a successful SMTP session, all the response codes, and how easy it is to spoof mail headers. See RFC 821 for an explanation of all response and error codes.
+
+What about SSL/TLS encrypted mail sessions? No problem, just use the openssl s_client command:
+
+$ openssl s_client -connect yourserver.com:995
+
+It will connect, then spit out trainloads of SSL certificate information. When it gets to
+
++OK POP3 host6 [cppop 20.0] at [127.0.0.1]
+
+it is ready to accept commands. Some typical session commands are:
+
+user [username]
+pass [password]
+list (lists the number of messages)
+retr 1 (display message number 1)
+quit
+
+You may use the same commands for an unencrypted POP3 session, telnet yourserver.com 110.
+
+Test your non-SSL IMAP server like this:
+
+$ telnet yourserver.com 143
+
+Then use these commands to login and read mail:
+
+login [username] [password]
+examine inbox
+logout
+
+Test your SSL-enable IMAP server with this command:
+
+$ openssl s_client -connect yourserver.com:993
+
+Testing Web Servers
+Firefox has a slick add-on feature called Live HTTPHeaders. Just click on the installation link to install it, restart Firefox, and click on Tools -> Live HTTP Headers. You'll see something like Figure 1.
+
+Figure 1.
+(Click for a larger image)
+There are options to replay or save your capture. This is a great feature that will help you quickly pinpoint Web server problems.
+
+A powerful command-line program with similar features is curl. curl is one of those amazing tiny programs that can do great feats, if only you can figure out how. This command fetches the HTTP headers only, using the -I flag:
+
+$ curl -I webserver.com
+HTTP/1.1 200 OK
+Date: Wed, 03 May 2006 00:39:20 GMT
+Server: Apache/2.0.54 (Ubuntu)
+Content-Type: text/html; charset=UTF-8
+
+curl does a tcpdump-type capture:
+
+$ curl --trace trace.txt webserver.com
+
+Open the trace.txt file to see what curl captured. This is a great way to make sure your SSL is working as it's supposed to:
+
+$ curl --trace trace.txt https://webserver.com
+
+curl has many more uses, such as testing LDAP and FTP servers. If the stars line up correctly, someday a detailed curl howto might appear here.
+
+The netstat command is invaluable for testing and troubleshooting services. This particular incantation gives a detailed picture of which services are running, and which ports they are listening to:
+
+# netstat -plunte
+
+This is especially valuable on a multi-homed system, as it shows which interfaces your services are listening on, and the program names and process IDs. You need this information to test your application-level security, to ensure that no LAN services are exposed to the Internet.
+
+The first step to repairing any sort of network troubles is diagnosing the problem. With these two articles you're well-equipped to diagnose most common network troubles. 

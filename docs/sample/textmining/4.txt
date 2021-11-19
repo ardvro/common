@@ -1,0 +1,112 @@
+Basic network troubleshooting.
+Issue:
+
+Basic network troubleshooting.
+Cause:
+
+    If a computer is unable to connect to a network or see other computers on a network, it may be necessary to troubleshoot the network. A network may not work because of any of the below reasons.
+
+       1. Network card not connected properly.
+       2. Bad network card drivers or software settings.
+       3. Firewall preventing computers from seeing each other.
+       4. Connection related issues.
+       5. Bad network hardware. 
+
+Solution:
+
+Because of the large variety of network configurations, operating systems, setup, etc... not all of the below information may apply to your network or operating system. If your computer is connected to a company or large network, or you are not the administrator of the network, it is recommended that if you are unable to resolve your issues after following the below recommendations that you contact the network administrator or company representative.
+
+Note: If you are being prompted for a Network password and do not know the password, Computer Hope is unable to assist users with obtaining a new or finding out the old password.
+Verify connections / LEDs
+
+    Verify that the network cable is properly connected to the back of the computer. In addition, when checking the connection of the network cable, ensure that the LEDs on the network are properly illuminated. For example, a network card with a solid green LED or light usually indicates that the card is either connected or receiving a signal. Note: generally, when the green light is flashing, this is an indication of data being sent or received.
+
+    If, however, the card does not have any lights or has orange or red lights, it is possible that either the card is bad, the card is not connected properly, or that the card is not receiving a signal from the network.
+
+    If you are on a small or local network and have the capability of checking a hub or switch, verify that the cables are properly connected and that the hub or switch has power.
+
+Adapter resources
+
+    Ensure that if this is a new network card being installed into the computer that the card's resources are properly set and/or are not conflicting with any hardware in the computer.
+
+    Users who are using Windows 95, 98, ME, 2000 or XP, verify that Device Manager has no conflicts or errors. Additional help and information about Device Manager and resources can be found on our Device Manager page.
+
+Adapter functionality
+
+    Verify that the network card is capable of pinging or seeing itself by using the ping command. Windows / MS-DOS users ping the computer from a MS-DOS prompt. Unix / Linux variant users ping the computer from the shell.
+
+    To ping the card or the localhost, type either
+
+        ping 127.0.0.1
+
+        or
+
+        ping localhost
+
+    This should show a listing of replies from the network card. If you receive an error or if the transmission failed, it is likely that either the network card is not physically installed into the computer correctly, or that the card is bad.
+
+Protocol
+
+    Verify that the correct protocols are installed on the computer. Most networks today will utilize TCP/IP, but may also utilize or require IPX/SPX and NetBEUI.
+
+    Additional information and help with installing and reinstalling a network protocol can be found on document CH000470.
+
+    When the TCP/IP protocol is installed, unless a DNS server or other computer assigns the IPX address, the user must specify an IP address as well as a Subnet Mask. To do this, follow the below instructions.
+
+       1.
+
+          Click Start / Settings / Control Panel
+       2.
+
+          Double-click the Network icon
+       3.
+
+          Within the configuration tab double-click the TCP/IP protocol icon. Note: Do not click on the PPP or Dial-Up adapter, click on the network card adapter.
+       4.
+
+          In the TCP/IP properties click the IP address tab
+       5.
+
+          Select the option to specify an IP address
+       6.
+
+          Enter the IP address and Subnet Mask address, an example of such an address could be:
+
+          IP Address: 102.55.92.1
+          Subnet Mask: 255.255.255.192
+
+       7.
+
+          When specifying these values, the computers on the network must all have the same Subnet Mask and have a different IP Address. For example, when using the above values on one computer you would want to use an IP address of 102.55.92.2 on another computer and then specify the same Subnet Mask. 
+
+Firewall
+
+    If your computer network utilizes a firewall, ensure that all ports required are open. If possible, close the firewall software program or disconnect the computer from the firewall to ensure it is not causing the problem.
+
+Additional time
+
+    In some cases it may take a computer some additional time to detect or see the network. If after booting the computer you are unable to see the network, give the computer 2-3 minutes to detect the network. Windows users may also want to try pressing the F5 (refresh) key when in Network Neighborhood to refresh the network connections and possibly detect the network.
+
+Additional troubleshooting
+
+    If after following or verifying the above recommendations you are still unable to connect or see the network, attempt one or more of the below recommendations.
+
+    If you have installed or are using TCP/IP as your protocol you can attempt to ping another computer's IP address to verify if the computer is able to send and receive data. To do this, Windows or MS-DOS users must be at a prompt and Linux / Unix variant users must open or be at a shell.
+
+    Once at the prompt assuming, that the address of the computer you wish to attempt to ping is 102.55.92.2, you would type:
+
+    ping 102.55.92.2
+
+    If you receive a response back from this address (and it is a different computer), this demonstrates that the computer is communicating over the network. If you are still unable to connect or see the network, it is possible that other issues may be present.
+
+    Another method of determining network issues is to use the tracert command if you are a MS-DOS or Windows user or the traceroute command if you are a Linux / Unix variant user. To use this command you must be at the command prompt or shell.
+
+    Once at the prompt, assuming that the address is again 102.55.92.2, type:
+
+    tracert 102.55.92.2
+
+    or
+
+    traceroute 102.55.92.2
+
+    This should begin listing the hops between the computer and network devices. When the connection fails, determine which device is causing the issue by reviewing the traceroute listing.

@@ -1,0 +1,234 @@
+Introduction
+
+The target end user for this document is a hypothetical well-trained service engineer whose job it is to diagnose and repair a Network Server system. The procedural flows described in this document are not meant for maximum customer uptime, they are meant for maximum discoverability of problems and least cost of repair. Therefore, they may or may not suit a given situation. However, the information in this document can very likely be adapted to the specific needs of service, factory, or on-site personnel. Such adaptation is left to the various Directly Responsible Individuals.
+
+Causes are in listed order of probability and diagnosis. A high-level troubleshooting strategy is described. Note that when a part is removed or replaced in any repair flow it is assumed that the unit is put back together into a power-on state, with the rear keyswitch locked and the Main Logic Board fully seated. Note that top or side panels do not have to be re-installed to re-power the unit, however hazardous voltages may exist and all normal precautions are advised.
+
+All Part Numbers refer to the Service Part Number.
+
+I. Normal Startup and AIX Boot on the Network Server
+Suppose you walk up to a Network Server and hit the front power switch. What is the chain of events that results in a Unix Login prompt? First and most important, an AC path must exist to the unit's power supply. This means that the unit is plugged in, the AC line filter 922-2088 is working, the AC interlock switch (no Service Part Number ?) is closed by virtue of the Main Logic Board being fully seated, and the power supply is installed correctly.
+
+Second, a DC path must exist between the power supply and the Main Logic Board. This means that the Power Cable must be correctly wired and installed, and the power supply must be supplying a Trickle voltage (+5 Volts) to the Power Controller IC (Cuda). Third, a logical and physical path must exist from the front panel switch (or keyboard power switch) to the Power Controller. This means that the rear keyswitch must be in the locked position, the Processor Card is fully seated (or fully removed, for debug purposes), Cuda must be in the proper idle state, and the cables and connectors to the power switch must all be in working order. If these conditions exist, power on will be successful. However, a quick shut-down could occur at this point if a short circuit exists, because the power supplies detect short circuits and automatically shut down to prevent hard failure. Also, the +5 volt line is monitored by the power monitor IC on the Main Logic Board and if the voltage is below +4.7 the unit will also be shut down.
+
+Once valid power is applied to the Main Logic Board, the processor will execute instruction fetches from the system ROM (housed in a removable DIMM). The first software procedures in the ROM are called Power-On-Self-Test (POST). It is the job of POST to initialize the hardware into a working state, and establish a software path to the LCD. The LCD will then be written with progress reports on the state of the discovered hardware: DRAM, SRAM Cache, and various fan, temperature, and power supply fail states. DRAM will be sized, tested (but not exhaustively), and finally control will be turned over from POST to Open Firmware.
+
+It is the primary job of Open Firmware to find a bootable device (CD, floppy, or Hard Disk) based on the device or devices listed in the boot path and the position of the front panel keyswitch. Open Firmware builds what is known as a device tree, which identifies the hardware configuration to the Operating System to be booted. The Operating System will interact with Open Firmware to pass device tree information, and eventually to set the default boot path in the system's non-volatile RAM, so that once a hard disk is installed with AIX, a user never has to interact with Open Firmware to boot the machine. On a Network Server that has never been booted before, if Open Firmware detects the key in the service position, it will attempt to find a diagnostic floppy or Install CD to boot from automatically. This allows the typical user never to have to interact with Open Firmware.
+
+In order to find the bootable device, virtually the whole Main Logic Board, the Mezzanine Interconnect board, SCSI Cables, SCSI device, and SCSI backplane all need to be properly functional. If this is the case, Open Firmware can find the boot blocks on the bootable device. "Bootapple" messages are written to the screen, and a compressed "bosboot" image is loaded from disk into DRAM, expanded, and jumped to to begin AIX execution. At this point, the AIX kernel has been launched. Next, various configuration methods are run, SCSI buses are walked to discover attached devices, file server mode(auto-on) is turned on, the system QUACK is heard, and the first system wide interrupts are taken. (Open Firmware does not use interrupt based I/O processing). Finally, a File System Check (fsck) is performed, ethernet is configured, eventually nameservers are queried, various daemons are started, and usually the COSE desktop is launched. (The exact list of services, utilities, daemons and applications launched may vary based on what is configured in system boot files such as /etc/inittab and /etc/rc.)
+
+Now that we understand how the Network Server launches AIX, we are better prepared to understand how failures to boot can be diagnosed. Each heading in the following discussion will introduce a major symptom.
+
+II. No Power at All
+Problem: Unit will not power on via the front panel momentary switch.
+
+Probable causes: Unit not plugged in, rear keyswitch not locked, Main Logic Board or Processor Card not fully seated, hardware problem.
+
+Troubleshooting strategy is to verify power-on conditions are met for the machine, then isolate other hardware causes.
+
+   1. Unit is not plugged in to a live AC outlet. Verify. If still fail THEN
+
+   2. Unit does not have the rear key switch all the way in the locked position (triple check this!) If still fail THEN
+
+   3. Logic Module or Processor Card is not fully seated into the unit. Inspect the seating of the Processor Card ensuring that no gold fingers are visible where it mates into its connector. Then reseat the Logic Module, carefully and fully tightening the four thumbscrews and putting the rear keyswitch fully into the locked position. If still fail THEN
+
+   4. Plug keyboard into ADB port and press power on key. If still No Power THEN go to 5. If power on successful go to 4a.
+
+      a) See if machine will power down from the front panel power switch. If it does, congratulations, it's fixed. Otherwise, you've isolated to the interconnect system containing the NMI/Reset-PowerBd, the SwitchCable, the Mezzanine, and the Main Logic Module. Check and/or replace cable connecting momentary switch 922-2086. Retest. If fail then check or replace Interconnect Mez Bd. 922-2079. If fail then replace NMI/Reset Power Bd. 922-2081. If fail then replace Main Logic Module.
+
+   5. NS 700 Only: Make sure Power Supply , 661-1131, is fully seated. If fail or NS 500 THEN
+
+   6. Reset Cuda Chip (power controller IC) by pressing the red switch in the upper left hand corner of the Main Logic Module. Reseat everything firmly, making sure thumbscrews are tight and the rear key switch is in the locked position. (NOTE: Any time you execute step 6 the unit will lose its system date and time. When fixed the system date and time should be reset. If still fail THEN
+
+   7. Unplug unit and verify AC wiring by removing the Left Duct 922-2124. If all wires are seated properly then replace Power Cable 922-2090 or Power Supply 661-1131 or NS 500 power supply. If still fail THEN
+
+   8. Replace Main Logic Board. 
+
+III. Intermittent Power
+Problem: Unit powers on but shuts down immediately. Front panel LED, and LCD flash on momentarily.
+
+Probable cause: Unit has a short circuit.
+
+Troubleshooting strategy is to isolate parts of the powered system until the short circuit goes away, then narrow it down to the failing replaceable unit.
+
+   1. First verify the problem. If a user pushes the momentary power button and holds it for too long, the unit will shut down normally because the power controller IC is interpreting the holding down as a power-down request. If the problem is genuine, isolate the short ciruit by removing all SCSI devices from their seated positions. If still fail THEN go to 2. If unit now powers on, isolate to the shorting SCSI device. Once found, unplug the power to the SCSI device 922-2097 and retest. If still fail THEN unplug LED Cable 922-2098. If still fail THEN replace Drive board either Wide 922-2083 or Narrow 922-2082.
+
+   2. Remove the power connector to the SCSI Backplane. If unit now powers on, replace SCSI Backplane 922-2080. If still shut down immediately THEN
+
+   3. Remove (do not replace) the processor card 661-1126. If unit still shuts down THEN go to 4. If unit powers on, replace with a known good processor card and retest. If unit fails with known good processor card THEN go to 5. If unit powers on with known good Processor card, replace processor card.
+
+   4. Remove DRAM, CACHE, and ROM DIMMS and retest. If unit still shuts down THEN go to 5. If now powers on, fault isolate to failing DIMM.
+
+   5. Replace power supply (NS 700 use known good Power Supply Module). If fail THEN
+
+   6. Replace Main Logic Board. NS 700 only, if still fail replace Power Backplane 922 2089. 
+
+IV. No LCD Display
+Problem: Unit powers on but LCD does not display anything or displays incomplete or incorrect information.
+
+Probable causes: LCD cable loose, bad LCD, system hardware failure.
+
+Troubleshooting strategy is to first verify cables, then isolate to possible hardware causes.
+
+   1. Make sure a monitor is attached. If unit does not launch Open Firmware to the monitor and/or boot CD or Hard Drive, go to V. No Open Firmware Launch.
+
+   2. Remove Front Bezel 922-2111 and reseat both ends of LCD cable 922-2087. If still fail THEN
+
+   3. Reseat Main Logic Board. If still fail THEN
+
+   4. Remove Top Cover 922-2108 and ensure cabling from Interconnect Mez Board 922-2079 to Top Shelf connector is secure. Do not replace Top Cover and verify mating of Main Logic Board to Interconnect Mez Board. If still fail THEN
+
+   5. Replace LCD and/or associated cables. If still fail THEN
+
+   6. Unit has faulty path to LCD. Replace Main Logic Board 
+
+V. No Open Firmware Launch
+Problem: Unit writes information to the LCD but does not launch Open Firmware.
+
+Probable causes: Power-On-Self-Test didn't complete; NVRAM has been corrupted; system hardware failure.
+
+Troubleshooting strategy is to reset NVRAM; then attempt to isolate possible hardware causes.
+
+   1. Make sure unit is able to complete Power-On-Self-Test. If it has, the LCD will display the processor speed, the amount of DRAM, and the size of the L2 Cache. If LCD has only partial information go to 8.
+
+   2. Make sure user has not redirected Open Firmware output to the serial port. If it is suspected that they have, attach an appropriate terminal to the appropriate port. If not, THEN
+
+   3. Reset NVRAM by placing the front key in service position, restarting, and after the Long DRAM test is reported as begun on the LCD, typing CMD-OPTION-p-r simultaneously on an attached keyboard. Unit will lose its boot path and Open Firmware security password. Once the machine is booting, these will need to be reset to the correct values. See section VI. No Bootapple, item 11. If still fail THEN
+
+   4. Slide the Main Logic Board out from the unit, and remove the battery for at least 3 minutes, Make sure there are no external devices other than a keyboard attached to the Main Logic Board. Reseat the battery and reseat the Main Logic Board, and reconnect the monitor. Unit will lose system date and time as well as any boot path and Open Firmware security password. Once the machine is booting, this will need to be reset to the correct values. See section VI. No Bootapple, item 11. If still fail THEN
+
+   5. Unit has system hardware failure. Remove Cache and all but one Memory DIMM. If launch to Open Firmware, isolate to failing Cache or Memory. If still fail THEN
+
+   6. Replace Processor card with known good. If still fail THEN
+
+   7. Replace Main Logic Board
+
+   8. Unit's LCD displays partial information: If the Long DRAM test does not complete, the number dashes (hyphens) found on the screen indicates the offending DRAM DIMM as shown in the following table. Please note that with 64 and 128Meg DRAM DIMM technology, it may take a minute or more for each dash to proceed along line 4 of the LCD display.
+
+      # of dashes on LCD line 4 Offending DIMM DRAM slot 1 Logic Board DRAM
+      (not implemented) 2 Logic Board DRAM (not implemented) 3 1A 4 1B 5 1A 6
+      1B 7 2A 8 2B 9 2A 10 2B 11 3A 12 3B 13 3A 14 3B 15 4A 16 4B 17 4A 18 4B.
+
+    8a) Unit displays error message on LCD: The following are POST error messages and the appropriate action to take when encountered.
+
+    a) 'CudaNotResponding!!!' POST is expecting the Cuda chip to be idle, if it isn't this will be the message. First, attempt to power the machine down, and pull the AC plug for a minimum of 30 seconds. Replug the unit and try the front panel switch again as often this will make Cuda enter the idle state. If still fail, then use the red button on the Main Logic Board to force Cuda into the idle state. This will reset the system date and time. If still fail then remove the battery, following the procedure of item 4 above.
+
+    b) 'ParityAddrAtAddrFail' Probable DRAM problem, this has been seen when using a DRAM DIMM socket for the first time. The solution is to remove the new DIMMs from their sockets and re-seat them to work-in the socket. Check also for unqualified third party non-parity DRAM DIMMS.
+
+    c) 'Jumping to RAM prog.' If this is seen on the LCD and the system does not boot (more than once), this is an indication that the NVRAM soldered to the motherboard has failed. Follow the procedure of 4) above.
+
+    d) 'Drive Fan Failed!' The drive fan is the indicated field replaceable unit. If it is spinning see section X. Some Common Reassembly Problems below.
+
+    e) 'Processor Fan Failed' The Processor fan is the indicated field replaceable unit, see X. Some Common Reassembly Problems below.
+
+    f) 'Temperature Too Hot!' Processor Card is indicating an overtemperature. The AIX error report should have forewarned of this. Verify cooling paths are not obstructed.
+
+    g) 'Temperature Warning!' Processor Card is indicating an overtemperature. The AIX error report should have forewarned of this. Verify cooling paths are not obstructed.
+
+    h) 'Left Power Fail!' Power Supply is the indicated field replaceable unit.
+
+    i) 'Right Power Fail!' Power Supply is the indicated field replaceable unit.
+
+    j) 'Left Power Hot!' Power Supply is the indicated field replaceable unit; first verify cooling paths are not obstructed
+
+    k) 'Right Power Hot!' Power Supply is the indicated field replaceable unit; first verify cooling paths are not obstructed.
+
+    l) Unit's LCD displays correct information but then becomes a jumbled mess of letters. This indicates a Cache DIMM problem. Remove ; if still fail THEN go to 6.
+
+    m) Unit reports 0000Kbytes cache. User is using memory from an unqualified source. Any DRAM in the Network Server must not use ACT buffer technology, this causes incorrect configuration information to be loaded at system reset time. Check DIMM's for ACT buffers, usually 74ACT16244. FCT is the preferred technology. 
+
+VI. No BootApple
+Problem: Unit launches Open Firmware, Open firmware does not respond on the monitor with a set of "bootapple" messages which indicate the successful loading of a boot image from a hard drive (or CD). Instead, Open Firmware prompt "o >" or "security> " is displayed.
+
+Probable cause: No valid boot blocks found at the boot path.
+
+   1. Troubleshooting strategy is to isolate the problem to an incorrect boot path, a bad CD drive, or a bad connection to the backplane port.
+
+   2. If booting for the first time to the AIX Install CD, make sure the key is in the service postion and the install CD is in the(closed) CD tray. Restart. If AIX has already been installed ona hard drive, and/or the machine has lost the boot path because the battery was removed go to 11.
+
+   3. Verify Open Firmware can see the keyswitch in the service mode by typing ".keyswitch" You need to log in if "security>" is the prompt, using the AIX root password. If not known, you must reset NVRAM by placing the keyswitch in service mode, restarting, and pressing CMD-OPT-p-r simultaneoulsy on the keyboard. If not seen, remove front bezel 922-2111 and check cables. See procedure for fixing the LCD display in Section IV. No LCD Display above. If seen in service mode but no boot THEN
+
+   4. type "set-defaults" at Open Firmware, and type boot. Machine may reset, but the monitor should show attempted boot to cd, fd:diags or disk2:aix. Note that "set-defaults" will reset the boot path and passwords. If still no boot THEN
+
+   5. Isolate the drive so that only the CD-ROM drive is in the drive trays. Type "probe-scsi1" at Open Firmware if the CD is in one of the top four tray positions. If the CD is in one of the bottom 3 tray positions, type "probe-scsi2". If Open Firmware sees the CD drive in the approriate position then put other drives back in and verify again. If fail then isolate to the other device which could have an incorrect, missing, or misplaced SCSI ID jumper. If the CD-ROM is never seen by Open Firmware THEN
+
+   6. Replace with known good CD Drive. If success, isolate to either the CD drive or its cable set/Drive Board (922-9027, 922-2104, 922-2082). If fail THEN
+
+   7. Move known good CD drive to another tray position and type "probe-scsi1" if top or "probe-scsi2" if bottom and if seen type boot. If successful, then replace SCSI backplane 922-2080. If fail THEN
+
+   8. Remove the top cover of the unit (922-2108) and check SCSI cables to the backplane: 922-2095 for the top trays and 922 2096 for the bottom trays. Make sure they are fully seated, if necessary replace. If still fail THEN
+   9. Replace the SCSI backplane 922-2080. If still fail THEN
+
+  10. Replace Main Logic Board. If still fail THEN
+
+  11. Replace Interconnect Mez board 922-2079.
+
+  12. A lost boot path can result from removing the battery. Boot paths are set by AIX interacting with Open Firmware NVRAM locations. Verify the boot path by typing at the Open Firmware prompt "printenv boot-device". The default device is disk2:aix. 
+
+You should now be able to boot the machine by typing the explicit path at the Open Firmware prompt. Explicit paths are of the form disk2:aix, where the number is the SCSI ID of the root hard disk. From top to bottom, the SCSI ID's of the front removable devices are 0, 1, 2, 3, 4, 5, 6. A root hard drive installed in the rear bracket of the 700 will require the following boot path, either "scsi-int2/sd@0:aix" or "scsi-int2/sd@1:aix". A root hard drive connected to the external bus will require a command of the type "boot scsi/sd@3:aix" where the number is the SCSI ID. Type "probe-scsi1" to verify that Open Firmware can see a drive on the top four slots; type "probe-scsi2" to verify the bottom three slots. If Open Firmware fails to see an installed root hard drive, follow the precedures for the CD-ROM drive at 4) and beyond, above, substituting the hard drive for the CD-ROM drive.
+
+Once booted and logged in as root, the user should restore the boot paths. First find the boot logical volume name by typing "bootinfo -b", which will return a name of the form "hdisk#". Then type "bootlist -m normal hdisk#" and "bootlist -m service fd rmt cd hdisk# scdisk", where hdisk# is the name returned by the bootinfo command.
+
+The user can also reset the Open Firmware security password from AIX by first synchronizing with the Open Firmware password (will be null after battery removal or "set-defaults") and then typing a new password. For example, type "passwd" and when prompted set it to null (just hit return). The Open Firmware password is now synchronized. Then type "passwd" again and set it to the normal root password. Open Firmware security password will now be the same as the AIX root password.
+
+If a user does not know the Open Firmware password, the only way to synchronize is to remove the battery or use CMD-OPT-p-r with the key in the service position to wipe out NVRAM entirely (including boot paths) .
+
+VII. No Unix Login
+Problem: Unit has loaded the image from disk but fails to get to a login screen.
+
+Troubleshooting strategy is to use the LCD three- or four-digit codes to determine point of failure. (Note that LCD translations are availabe in InfoExplorer, the information browser on the AIX CD). Also, the following generic procedure can be used to get more information on all failures to get to the AIX login.
+
+Attach a 9600 baud serial terminal to serial port #2. Reboot but type CMD-OPT-o-f at an attached keyboard to prevent auto-booting. If in security mode, you must login; then type the boot path with the number "5" appended. A trap instruction will execute, type "st enter_dbg 2". This will allow configuration messages to be output to the serial port throughout the boot process. Often this information can be used by an AIX engineer to determine the root of the problem.
+
+Some common problems:
+
+   1. No LCD codes. Unit has less than 16 Mbytes of memory, or 1a) Invalid boot image. Install system software.
+
+   2. Hang at 9002. A internal Fast/Wide SCSI bus Problem. Check SCSI cables and disks. Unit is also taking its first interrupts at this point, so the problem could be on the Main Logic Board.
+
+   3. Apparent hang at 517. An external SCSI bus problem. Check cables, termination, etc.
+
+   4. Apparent hang at 538. If a nameserver or set of nameservers had been configured in a previous boot, and they have since gone away, the Network Server can appear to hang at 538. In actuality, it will proceed but may take 15 minutes to an hour at this stage.
+
+   5. Flashing 888 upon boot. Make sure unit has 256 Mbytes or less of Main Memory, until the AIX patch is available to enable up to 512 Mbytes. Put key in service mode and reboot; following instructions.
+
+   6. C20 upon boot. Boot image contains a low level debugger and has taken an exception. Attach a 9600 baud serial port device to serial port 2 and type "reason." This can provide useful information to an AIX engineer. 
+
+VIII. Crash After Boot (888 on LCD)
+Problem: Unit has taken an exception, indicating a software or hardware problem that prevents continuing.
+
+If this has happened in the past but the machine can always be reliably rebooted, the troubleshooting strategy is to analyze the error report and take appropriate action. Type "smit errpt" to look at the raw error log; type "errpt -a | more" to see an error analysis.
+
+   1. Reboot in service mode and follow instructions. If no diagnostic action or tape dump is indicated, boot normally. The core dump has probably been placed in /adm/ras/vmcore#. This potentially could be analyzed by an engineer.
+
+   2. After successful booting instantiate the Low-Level Debugger (LLDB) by typing "bosboot -a -D." The next time such an exception is taken, a 9600 baud serial attached terminal will show the reason the exception is taken. Possible reasons: a) Machine Check Interrupt. Indicates a likely hardware problem with parity memory. Memory replacement may be indicated; b) Data Storage Interrupt. Indicates a possible hardware or software problem. Bad SCSI reads/writes, memory corruption, and software errors can trigger this problem. Review the error log. To remove the debugger later, type "bosboot -a". 
+
+IX. Unit Does Not Configure Added Hardware
+Problem: User has added a PCI card and AIX does not appear to see it, by examining the output of "lsdev -C".
+
+   1. User has not installed appropriate driver software. Use the AIX installation CD to add software bundles for Ethernet cards, for example. Otherwise install the software that came with the hardware.
+
+   2. User has installed the software but the card is still not configured. Upon reboot, type CMD-OPT-o-f at the attached keyboard to break into Open Firmware. Log in if in security mode. Type "dev /bandit@f2000000" and "ls" for the first two card slot positions. If their is no device listing of the type "/pci....@D" for slot 1 or "/pci...@E" for slot 2 then the card is not being seen at the hardware level. This could indicate a faulty card or a faulty Main Logic Board.
+
+      Type "dev /bandit@f4000000" and "ls" similarly to examine the bottom 4 slots. Devices at these positions should return devices at "/pci....@D" for slot 3, "/pci....@E" for slot 4, "/pci...@F" for slot 5, and "/pci...@10" for slot 6.
+
+   3. If the user expects the specific PCI card to interact with the AIX boot process, a "bosboot" may be required after installing software. Also, some cards may require system heap allocations; the documentation that comes with the card must detail this procedure (Apple ethernet and SCSI cards do not require this procedure).
+
+   4. It is possible for AIX's configuration databases to become confused. Run "diag -a" to remove devices that had once been configured but are no longer. In very rare circumstances the database confusion can affect booting; if this is the case, follow the procedure of VII. No Unix Login and report the serial port output. 
+
+X. Some Common (Re-)Assembly Problems
+Often it is possible, in the course of troubleshooting, to re-assemble a Network Server incorrectly. Here are some symptoms and their causes due to misassembly.
+
+   1. Main Logic Module is hard to reseat. Usually caused by not having the Logic Module correctly on the Drawer Slides. Ensure that hooks are latched both front and back on each slide; it is very easy to miss the front hooks, which will misalign the board.
+
+   2. Unit shows fan failure when no fan failure (checked manually) exists. Cause: Usually due to SCSI channels switched, i.e. the cables from the Interconnect Mez Board are swapped, Channel 0 on the backplane going to 1 on the Mez and vice versa.
+
+   3. Unit shows the same devices during a "probe-scsi1" as it does when showing a "probe-scsi2". Usually due to the cable from Channel 1 on the Mez board being plugged into the SCSI Backplane Channel 0 debug port, which is a few inches above it on the backplane.
+
+   4. Unit loses date or time when unplugged, or has trouble with power-on or shut down sequences. Due to missing or reversed battery.
+
+   5. Unit sees SCSI devices in Open Firmware but at the incorrect SCSI ID positions; or fails to see devices it used to see before addition of a SCSI device. Due to incorrect placement of the SCSI ID jumper on the device.
+
+   6. Unit was powering up until disassembly; now it fails. Follow procedure for No Power on, but usually this is caused by not seating the Processor Card fully or faulty cable re-insertion.
+
+   7. Unit will not stay shut down; i .e. user pushes power key , unit powers down but several seconds later the unit powers back up. This is a feature. It is caused by AIX setting a "file server" mode to the power controller IC. If the machine had booted but had not completed a software controlled shut down, the power down is treated the same way as if due to an AC power outage. This mode is set very early in the AIX boot; if the boot QUACK has been heard, the server mode has already been set. The mode can be turned off in one of two ways: bring the machine to the Open Firmware prompt, and type "shut-down"; or boot AIX and login as root and type "shutdown now". Both will result in software controlled shut downs. 

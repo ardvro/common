@@ -1,0 +1,313 @@
+Network Troubleshooting Overview
+
+These sections introduce you to the concepts and practice of network troubleshooting:
+
+    * Introduction to Network Troubleshooting
+
+    * Network Troubleshooting Framework
+
+    * Troubleshooting Strategy 
+
+Network troubleshooting means recognizing and diagnosing networking problems with the goal of keeping your network running optimally. As a network administrator, your primary concern is maintaining connectivity of all devices (a process often called fault management). You also continually evaluate and improve your network's performance. Because serious networking problems can sometimes begin as performance problems, paying attention to performance can help you address issues before they become serious.
+About Connectivity Problems
+
+Connectivity problems occur when end stations cannot communicate with other areas of your local area network (LAN) or wide area network (WAN). Using management tools, you can often fix a connectivity problem before users even notice it. Connectivity problems include:
+
+    * Loss of connectivity - When users cannot access areas of your network, your organization's effectiveness is impaired. Immediately correct any connectivity breaks.
+
+    * Intermittent connectivity - Although users have access to network resources some of the time, they are still facing periods of downtime. Intermittent connectivity problems can indicate that your network is on the verge of a major break. If connectivity is erratic, investigate the problem immediately.
+
+    * Timeout problems - Timeouts cause loss of connectivity, but are often associated with poor network performance. 
+
+About Performance Problems
+
+Your network has performance problems when it is not operating as effectively as it should. For example, response times may be slow, the network may not be as reliable as usual, and users may be complaining that it takes them longer to do their work. Some performance problems are intermittent, such as instances of duplicate addresses. Other problems can indicate a growing strain on your network, such as consistently high utilization rates.
+
+If you regularly examine your network for performance problems, you can extend the usefulness of your existing network configuration and plan network enhancements, instead of waiting for a performance problem to adversely affect the users' productivity.
+Solving Connectivity and Performance Problems
+
+When you troubleshoot your network, you employ tools and knowledge already at your disposal. With an in-depth understanding of your network, you can use network software tools, such as "Ping", and network devices, such as "Analyzers", to locate problems, and then make corrections, such as swapping equipment or reconfiguring segments, based on your analysis.
+
+Transcend® provides another set of tools for network troubleshooting. These tools have graphical user interfaces that make managing and troubleshooting your network easier. With "Transcend Applications", you can:
+
+    * Baseline your network's normal status to use as a basis for comparison when the network operates abnormally
+
+    * Precisely monitor network events
+
+    * Be notified immediately of critical problems on your network, such as a device losing connectivity
+
+    * Establish alert thresholds to warn you of potential problems that you can correct before they affect your network
+
+    * Resolve problems by disabling ports or reconfiguring devices 
+
+See "Your Network Troubleshooting Toolbox" for details about each troubleshooting tool.
+
+Network Troubleshooting Framework
+
+The International Standards Organization (ISO) Open Systems Interconnect (OSI) reference model is the foundation of all network communications. This seven-layer structure provides a clear picture of how network communications work.
+
+Protocols (rules) govern communications between the layers of a single system and among several systems. In this way, devices made by different manufacturers or using different designs can use different protocols and still communicate.
+
+By understanding how network troubleshooting fits into the framework of the OSI model, you can identify at what layer problems are located and which type of troubleshooting tools to use. For example, unreliable packet delivery can be caused by a problem with the transmission media or with a router configuration. If you are receiving high rates of "FCS Errors" and "Alignment Errors", which you can monitor with Status Watch, then the problem is probably located at the physical layer and not the network layer. Figure 1 shows how to troubleshoot the layers of the OSI model.
+
+Table 5 describes the data that the network management tools can collect as it relates to the OSI model layers.
+
+Table 5 Network Data and the OSI Model Layers
+
+Layer
+	
+
+Data Collected
+	
+
+TranscendcNCS Tool Used
+
+Application
+
+Presentation
+
+Session
+
+Transport
+	
+
+Protocol information and other Remote Monitoring (RMON) and RMON2 data
+	
+
+    *
+      LANsentry Manager
+
+    *
+      Traffix Manager
+      (for more detail) 
+
+Network
+	
+
+Routing information
+	
+
+    *
+      Status Watch
+
+    * LANsentry Manager
+      (for more detail)
+
+    * Traffix Manager
+      (for more detail) 
+
+Data Link
+	
+
+Traffic counts and other packet breakdowns
+	
+
+    * Status Watch
+
+    * LANsentry Manager
+      (for more detail) 
+
+Physical
+	
+
+Error counts
+	
+
+    * Status Watch 
+
+Figure 1 OSI Reference Model and Network Troubleshooting
+
+For information about network troubleshooting tools, see "Your Network Troubleshooting Toolbox".
+
+Troubleshooting Strategy
+
+How do you know when you are having a network problem? The answer to this question depends on your site's network configuration and on your network's normal behavior. See "Knowing Your Network" for more information.
+
+If you notice changes on your network, ask the following questions:
+
+    * Is the change expected or unusual?
+
+    * Has this event ever occurred before?
+
+    * Does the change involve a device or network path for which you already have a backup solution in place?
+
+    * Does the change interfere with vital network operations?
+
+    * Does the change affect one or many devices or network paths? 
+
+After you have an idea of how the change is affecting your network, you can categorize it as critical or noncritical. Both of these categories need resolution (except for changes that are one-time occurrences); the difference between the categories is the time that you have to fix the problem.
+
+By using a strategy for network troubleshooting, you can approach a problem methodically and resolve it with minimal disruption to network users. It is also important to have an accurate and detailed map of your current network environment. Beyond that, a good approach to problem resolution is:
+
+    * Recognizing Symptoms
+
+    * Understanding the Problem
+
+    * Identifying and Testing the Cause of the Problem
+
+    * Solving the Problem 
+
+Recognizing Symptoms
+
+The first step to resolving any problem is to identify and interpret the symptoms. You may discover network problems in several ways. Users may complain that the network seems slow or that they cannot connect to a server. You may pass your network management station and notice that a node icon is red. Your beeper may go off and display the message: WAN connection down.
+User Comments
+
+Although you can often solve networking problems before users notice a change in their environment, you invariably get feedback from your users about how the network is running, such as:
+
+    * They cannot print.
+
+    * They cannot access the application server.
+
+    * It takes them much longer to copy files across the network than it usually does.
+
+    * They cannot log on to a remote server.
+
+    * When they send e-mail to another site, they get a routing error message.
+
+    * Their system freezes whenever they try to Telnet. 
+
+Network Management Software Alerts
+
+Network management software, as described in "Your Network Troubleshooting Toolbox", can alert you to areas of your network that need attention. For example:
+
+    * The application displays red (Warning) icons.
+
+    * Your weekly Top-N utilization report (which indicates the 10 ports with the highest utilization rates) shows that one port is experiencing much higher utilization levels than normal.
+
+    * You receive an e-mail message from your network management station that the threshold for broadcast and multicast packets has been exceeded. 
+
+These signs usually provide additional information about the problem, allowing you to focus on the right area.
+Analyzing Symptoms
+
+When a symptom occurs, ask yourself these types of questions to narrow the location of the problem and to get more data for analysis:
+
+    * To what degree is the network not acting normally (for example, does it now take one minute to perform a task that normally takes five seconds)?
+
+    * On what subnetwork is the user located?
+
+    * Is the user trying to reach a server, end station, or printer on the same subnetwork or on a different subnetwork?
+
+    * Are many users complaining that the network is operating slowly or that a specific network application is operating slowly?
+
+    * Are many users reporting network logon failures?
+
+    * Are the problems intermittent? For example, some files may print with no problems, while other printing attempts generate error messages, make users lose their connections, and cause systems to freeze. 
+
+Understanding the Problem
+
+Networks are designed to move data from a transmitting device to a receiving device. When communication becomes problematic, you must determine why data are not traveling as expected and then find a solution. The two most common causes for data not moving reliably from source to destination are:
+
+    * The physical connection breaks (that is, a cable is unplugged or broken).
+
+    * A network device is not working properly and cannot send or receive some or all data. 
+
+Network management software can easily locate and report a physical connection break (layer 1 problem). It is more difficult to determine why a network device is not working as expected, which is often related to a layer 2 or a layer 3 problem.
+
+To determine why a network device is not working properly, look first for:
+
+    * Valid service - Is the device configured properly for the type of service it is supposed to provide? For example, has Quality of Service (QoS), which is the definition of the transmission parameters, been established?
+
+    * Restricted access - Is an end station supposed to be able to connect with a specific device or is that connection restricted? For example, is a firewall set up that prevents that device from accessing certain network resources?
+
+    * Correct configuration - Is there a misconfiguration of IP address, subnet mask, gateway, or broadcast address? Network problems are commonly caused by misconfiguration of newly connected or configured devices. See "Manager-to-Agent Communication" for more information. 
+
+Identifying and Testing the Cause of the Problem
+
+After you develop a theory about the cause of the problem, test your theory. The test must conclusively prove or disprove your theory.
+
+Two general rules of troubleshooting are:
+
+    * If you cannot reproduce a problem, then no problem exists unless it happens again on its own.
+
+    * If the problem is intermittent and you cannot replicate it, you can configure your network management software to catch the event in progress. 
+
+For example, with "LANsentry Manager", you can set alarms and automatic packet capture filters to monitor your network and inform you when the problem occurs again. See "Configuring Transcend NCS" for more information.
+
+Although network management tools can provide a great deal of information about problems and their general location, you may still need to swap equipment or replace components of your network until you locate the exact trouble spot.
+
+After you test your theory, either fix the problem as described in "Solving the Problem" or develop another theory.
+Sample Problem Analysis
+
+This section illustrates the analysis phase of a typical troubleshooting incident.
+
+On your network, a user cannot access the mail server. You need to establish two areas of information:
+
+    * What you know - In this case, the user's workstation cannot communicate with the mail server.
+
+    * What you do not know and need to test -
+
+          o Can the workstation communicate with the network at all, or is the problem limited to communication with the server? Test by sending a "Ping" or by connecting to other devices.
+
+          o Is the workstation the only device that is unable to communicate with the server, or do other workstations have the same problem? Test connectivity at other workstations.
+
+          o If other workstations cannot communicate with the server, can they communicate with other network devices? Again, test the connectivity. 
+
+The analysis process follows these steps:
+
+1 .   Can the workstation communicate with any other device on the subnetwork?
+
+    * If no, then go to step 2.
+
+    * If yes, determine if only the server is unreachable.
+
+          o If only the server cannot be reached, this suggests a server problem. Confirm by doing step 2.
+
+          o If other devices cannot be reached, this suggests a connectivity problem in the network. Confirm by doing step 3. 
+
+2 .   Can other workstations communicate with the server?
+
+    * If no, then most likely it is a server problem. Go to step 3.
+
+    * If yes, then the problem is that the workstation is not communicating with the subnetwork. (This situation can be caused by workstation issues or a network issue with that specific station.) 
+
+3 .   Can other workstations communicate with other network devices?
+
+    * If no, then the problem is likely a network problem.
+
+    * If yes, the problem is likely a server problem. 
+
+When you determine whether the problem is with the server, subnetwork, or workstation, you can further analyze the problem, as follows:
+
+    * For a problem with the server - Examine whether the server is running, if it is properly connected to the network, and if it is configured appropriately.
+
+    * For a problem with the subnetwork - Examine any device on the path between the users and the server.
+
+    * For a problem with the workstation - Examine whether the workstation can access other network resources and if it is configured to communicate with that particular server. 
+
+Equipment for Testing
+
+To help identify and test the cause of problems, have available:
+
+    * A laptop computer that is loaded with a terminal emulator, TCP/IP stack, TFTP server, CD-ROM drive (to read the online documentation), and some key network management applications, such as LANsentry® Manager. With the laptop computer, you can plug into any subnetwork to gather and analyze data about the segment.
+
+    * A spare managed hub to swap for any hub that does not have management. Swapping in a managed hub allows you to quickly spot which port is generating the errors.
+
+    * A single port probe to insert in the network if you are having a problem where you do not have management capability.
+
+    * Console cables for each type of connector, labeled and stored in a secure place. 
+
+Solving the Problem
+
+Many device or network problems are straightforward to resolve, but others yield misleading symptoms. If one solution does not work, continue with another.
+
+A solution often involves:
+
+    * Upgrading software or hardware (for example, upgrading to a new version of agent software or installing Gigabit Ethernet devices)
+
+    * Balancing your network load by analyzing:
+
+          o What users communicate with which servers
+
+          o What the user traffic levels are in different segments
+
+            Based on these findings, you can decide how to redistribute network traffic. 
+
+    * Adding segments to your LAN (for example, adding a new switch where utilization is continually high)
+
+    * Replacing faulty equipment (for example, replacing a module that has port problems or replacing a network card that has a faulty jabber protection mechanism) 
+
+To help solve problems, have available:
+
+    * Spare hardware equipment (such as modules and power supplies), especially for your critical devices
+
+    * A recent backup of your device configurations to reload if flash memory gets corrupted (which can sometimes happen due to a power outage) 

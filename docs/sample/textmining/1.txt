@@ -1,0 +1,111 @@
+The Penguin's Practical Network Troubleshooting Guide
+May 2, 2006
+By Carla Schroder
+
+Linux has everything you need to do any kind of networking, plus it has eleventy-eight hundred different software utilities for network monitoring and troubleshooting. Today we'll learn how to pinpoint connectivity problems and how to map your network and all running services. This is handy not only for keeping tabs on everyday activities, but also to catch users running illicit hosts and services.
+
+There are so many different software utilities it's easy to get lost and not know what to use, and there is a lot of overlap in functionality. So we're going to focus on ping, tcptraceroute, and nmap. Doubtless someone will tell you their own favorite way of doing things that is different from yours, and it is always good to know these things, but it doesn't mean they are superior. Just different.
+
+**Warning**
+Take care to not be abusive with network testing software. Use ping and tcptraceroute judiciously, and be very careful with nmap, because most admins consider nmap scans to be hostile acts. Unless you have a good reason and permission, never run nmap on any network but your own.
+
+Cable Testing
+Way back in olden times Enterprise Networking Planet ran an article on testing Ethernet cabling. Nothing has changed in the cable-testing world, so this article is still useful. Consider today's offering a somewhat belated followup.
+
+Troubleshooting a Non-responsive Server
+Suppose you have a remote Web server that is not responding. I know this is horridly obvious, but sometimes people forget that the first step in network troubleshooting is always to confirm connectivity, and for this we have our little friend ping. There is more to ping than you may realize, so let's take a closer look. First, always make sure you are connected to the network. I've been bitten by this more than once. Next, ping localhost:
+
+$ ping -c4 -a localhost
+
+-c4 sends four ICMP ECHO_REQUESTs, and -a makes it ping audibly. Then ping the IP of the box you're trying to connect to. Then ping the hostname. With three simple commands you have confirmed that your NIC is up, and tested both connectivity and DNS.
+
+ping messages give some clues as to where the problem lies. This example shows that the hostname resolves, and there is a route to the host, but ping is receiving no responses of any kind:
+
+$ ping -c10 somename.com
+PING somename.com (1.2.3.4) 56(84) bytes of data.
+--- somename.com ping statistics ---
+10 packets transmitted, 0 received, 100% packet loss, time 9999ms
+
+You can try pinging the IP to see if it's a DNS problem:
+
+$ ping -c10 1.2.3.4
+PING 1.2.3.4 (1.2.3.4) 56(84) bytes of data.
+--- 1.2.3.4 ping statistics ---
+10 packets transmitted, 0 received, 100% packet loss, time 8999ms
+
+Nope, it's not DNS. Chances are the entire remote network is offline, because you should at least get a "Destination Host Unreachable" message from the network's border router. But it could be a problem anywhere between you and the remote machine. Trying to pinpoint an Internet trouble spot is difficult and frustrating. In the olden days traceroute was a good tool for this, but in these here modern times a lot of network admins program their routers to not respond to traceroute packets. ping is often blocked as well.
+
+A good alternative is to use tcptraceroute. tcptraceroute sends TCP packets instead of UDP datagrams or ICMP ECHO requests like traceroute, so it's unlikely they'll be blocked. And a nice bonus is tcptraceroute traverses NAT firewalls. Use it like this:
+
+$ tcptraceroute somename.com
+Selected device wan, address 11.22.33.44, port 32783 for outgoing packets
+Tracing the path to somename.com (1.2.3.4) on TCP port 80 (www), 30 hops max
+1 12.160.224.21 18.383 ms 15.855 ms 14.915 ms
+2 router.foo.net (12.160.224.22) 16.884 ms 15.412 ms 14.670 ms
+3 12.17.165.97 15.942 ms 16.928 ms 14.914 ms
+4 12.118.134.5 45.727 ms 44.255 ms 43.988 ms
+5 12.123.44.2 57.315 ms 55.858 ms 63.676 ms
+6 tbr1-p012501.st6wa.ip.att.net (12.122.12.157) 56.307 ms 60.762 ms 54.591 ms
+7 12.127.6.73 60.220 ms 59.547 ms 52.862 ms
+8 POS2-0.BR1.SEA1.ALTER.NET (204.255.174.241) 51.870 ms * 51.498 ms
+9 0.so-4-2-0.XL1.SEA1.ALTER.NET (152.63.105.82) 55.560 ms 52.386 ms 55.570 ms
+10 0.so-7-0-0.XL1.DCA6.ALTER.NET (152.63.41.129) 117.896 ms 115.958 ms 121.841 ms
+11 0.so-6-0-0.WR1.IAD6.ALTER.NET (152.63.39.113) 119.130 ms 120.162 ms 136.860 ms
+12 so-1-0-0.ur1.iad6.web.wcom.net (157.130.59.78) 117.899 ms 126.721 ms 118.613 ms
+13 206.112.64.6 120.843 ms 117.494 ms 116.865 ms
+14 * * *
+15 uu-3-166.hostdomains.com (22.33.44.55) [open] 120.232 ms 145.716 ms 176.254 ms
+
+This shows that tcptraceroute can trace the remote server all the way to its origin, which is the fictional hostdomains.com, a Web hosting service. So now we know the pipeline is open end-to-end, but the somename.com server is not reachable, and we know which service provider to nag to fix it. If it were your own remote location, this would tell you that the problem is at your remote site.
+
+If it's possible, set up a direct dial-in connection to any remote server that you are running. This will let you find out quickly if it's up or not, and also to perform troubleshooting tests from the other direction.
+
+Other Ping Messages
+Destination Host Unreachable means that ping got as far as a router that is local to the remote host, but it cannot reach the remote host.
+
+unknown host means you entered the wrong hostname, DNS is broken, or you are not connected to the network. Ping the IP to see if it's a DNS or connectivity problem.
+
+If you are on a multi-homed box, use ping's -I flag to select a single interface:
+
+# ping -I eth1 [IP or hostname]
+
+Network Discovery and Mapping
+It is amazing how many different uses nmap has. Just when you think you know it inside out, out pop more interesting and useful features. This command scans a subnet to see what hosts are up:
+
+# nmap -sP 192.168.1.*
+
+Starting nmap 3.81 ( http://www.insecure.org/nmap/ ) at 2006-04-27 14:54 PDT
+Host 192.168.1.0 seems to be a subnet broadcast address (returned 2 extra pings).
+Host windbag.alrac.net (192.168.1.10) appears to be up.
+Host uberpc.alrac.net (192.168.1.11) appears to be up.
+MAC Address: 00:10:0A:54:61:DA (Unknown)
+Host stinkpad.alrac.net (192.168.1.12) appears to be up.
+MAC Address: 00:1A:E2:4A:8B:DD (Wistron)
+Host 192.168.1.255 seems to be a subnet broadcast address (returned 2 extra pings).
+Nmap finished: 256 IP addresses (3 hosts up) scanned in 7.005 seconds
+
+Want to map your entire network and see what services are running?
+
+# nmap -O 192.168.1.*
+
+Starting nmap 3.81 ( http://www.insecure.org/nmap/ ) at 2006-04-27 22:06 PDT
+Interesting ports on windbag.alrac.net (192.168.1.10):
+(The 1658 ports scanned but not shown below are in state: closed)
+PORT STATE SERVICE
+22/tcp open ssh
+80/tcp open http
+139/tcp open netbios-ssn
+445/tcp open microsoft-ds
+631/tcp open ipp
+Device type: general purpose
+Running: Linux 2.4.X|2.5.X|2.6.X
+OS details: Linux 2.5.25 - 2.6.3 or Gentoo 1.2 Linux 2.4.19 rc1-rc7)
+Uptime 1.567 days (since Wed Apr 26 08:30:31 2006)
+[output snipped]
+
+Nmap finished: 256 IP addresses (3 hosts up) scanned in 8.341 seconds
+
+There are a whole lot of open services here. The -O tells nmap to try to identity the operating systems.
+
+Remote Testing
+Running tests from outside your LAN, and from different geographical locations, is a great way to pinpoint trouble spots. A good way to do this is to have nice friends in other cities or other countries who give you shell accounts on their servers. Another way is to use Websites that are set up for remote network testing; see Resources for a list. You can do some low-budget remote testing without leaving your network administrator lair by using a dialup Internet account. 

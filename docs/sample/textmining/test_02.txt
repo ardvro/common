@@ -1,0 +1,19 @@
+DNS Server
+
+Packet Internet Groper (Ping) allows you to quickly verify the connectivity of your network devices. Ping attempts to transmit a packet from one device to a station on the network, and listens for the response to ensure that it was correctly received. You can validate connections on the parts of your network by pinging different devices.
+
+Ping devices when your network is operating normally so that you have a performance baseline for comparison. Ping by IP address when:
+
+You want to test devices on different subnetworks. This method allows you to Ping your network segments in an organized way, rather than having to remember all the hostnames and locations.
+
+You can Ping with IP addresses to make sure that DNS server is down and your system cannot look up host names properly. Even if you cannot access hostname information. Ping by hostname when you want to identify DNS server problems.
+
+Troubleshooting a Non-responsive Server.
+Suppose you have a remote web server that is not responding. I know this is horridly obvious, but sometimes people forget that the first step in network troubleshooting is always to confirm connectivity, and for this we have our little friend ping. There is more to ping than you may realize, so let's take a closer look. First, always make sure you are connected to the network. 
+
+Ping the IP of the box you're trying to connect to. Then ping the hostname. With three simple commands you have confirmed that your NIC is up, and tested both connectivity and DNS Server. You can try pinging the IP to see if it's a DNS problem.
+
+Other Ping Messages Destination Host Unreachable means that ping got as far as a router that is local to the remote host, but it cannot reach the remote host. Unknown host means you entered the wrong hostname, DNS is broken, or you are not connected to the network. Ping the IP to see if it's a DNS or connectivity problem.
+
+If you are having trouble getting your computer on line, here are a few things you need to check: Is it plugged into the jack?  If not, plug it in with the correct cable.  Make sure both ends of the cable are properly seated.  If you don't have the correct cable, you can get one from computer services.
+In the TCP/IP setting, are the 2 DNS numbers correctly entered, check to solve DNS Server problems.

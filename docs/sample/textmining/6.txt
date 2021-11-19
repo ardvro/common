@@ -1,0 +1,268 @@
+Your Network Troubleshooting Toolbox
+
+A robust network troubleshooting toolbox consists of items (such as network management applications, hardware devices, and other software) to recognize, diagnose, and solve networking problems. It contains:
+
+    * Transcend Applications
+
+    * Network Management Platforms
+
+    * 3Com SmartAgent Embedded Software
+
+    * Other Commonly Used Tools 
+
+Transcend management software is optimized for managing 3Com devices and their attached networks. However, some applications, such as LANsentry Manager, can manage any vendor's networking equipment that complies with the Remote Monitoring (RMON) Management Information Base (MIB).
+
+This section describes these Transcend applications, which you can use to troubleshoot your network:
+
+    * Transcend Central
+
+    * Status Watch
+
+    * Address Tracker
+
+    * LANsentry Manager
+
+    * Traffix Manager
+
+    * Device View
+
+      This guide primarily focuses on using these applications to troubleshoot your network.
+
+Transcend Central
+
+Start with Transcend Central, which is an asset management and device grouping application, to understand what your network consists of and to control the Transcend NCS network management troubleshooting tools. Transcend Central is available as both a native Windows application and a Java application that you can access using a Web browser.
+
+Using Transcend Central for troubleshooting, you can:
+
+    * Display an inventory of device, module, and port information.
+
+    * Group devices to make your troubleshooting tasks easier. By managing a collection of devices, you can simultaneously perform the same tasks on each device in a group and locate physical or logical problems on your network.
+
+    * Launch Transcend NCS applications, including some of your primary Transcend NCS troubleshooting tools:
+
+          o Status Watch includes Web Reporter (from the Java version)
+
+          o Address Tracker
+
+          o LANsentry Manager
+
+          o Traffix Manager
+
+          o Device View 
+
+Status Watch
+
+The Status Watch applications manage 3Com devices and their attached networks. Status Watch applications primarily poll for "MIB-II" data. This is a performance monitoring application that allows you to monitor the operational status of your network devices and quickly identify any problems that require your attention. It works in conjunction with Web Reporter.
+
+See the Status Watch Help to learn which 3Com devices are supported.
+Web Reporter
+
+Web Reporter is a data-reporting application that runs in a World Wide Web (WWW) browser. It generates reports from data that Status Watch collects, allowing you to compare network statistics against a baseline.
+Address Tracker
+
+Address Tracker is an address collection and discovery application that:
+
+    * Polls managed devices for all MAC addresses
+
+    * Polls managed devices and routers for IP addresses to perform MAC-to-IP address translation
+
+    * Uses Device View to disable troublesome ports 
+
+LANsentry Manager
+
+LANsentry Manager is a set of integrated applications that displays and explores the real-time and historical data that RMON-compliant devices (probes) on the network capture. LANsentry Manager uses SNMP polling to gather RMON and RMON2 data from the probes.
+
+Use LANsentry Manager to:
+
+    * Monitor current performance of network segments
+
+    * See trends over time
+
+    * Spot signs of current problems
+
+    * Configure alarms to monitor for specific events
+
+    * Capture packets and display their contents 
+
+LANsentry Manager works with any device (from 3Com or other vendors) that supports the "RMON MIB" or the "RMON2 MIB".
+Traffix Manager
+
+Traffix Manager is a performance-monitoring application that provides information about layer 2 (RMON) and layer 3 conversations between nodes. It helps you to assess traffic patterns on your network. Traffix Manager:
+
+    * Monitors all the stations that the RMON2-compliant probes encounter on your network
+
+    * Captures and stores RMON and RMON2 data for your network's protocols and applications
+
+    * Displays traffic between stations in user-defined views of the network
+
+    * Graphs current or historical data on the devices selected
+
+    * Delivers reports for user-specified stations and time periods as postscript to your printer or as HTML to your Web server
+
+    * Launches LANsentry Manager tools for in-depth analysis of a station or a conversation between stations 
+
+You can use Traffix Manager to:
+
+    * Know your network - Understand overall flow patterns and interactions between systems, and determine how your network is really being used at the application level.
+
+    * Optimize your network - Gain an insight into traffic and application usage trends to help you optimize the use and placement of current network resources and make wise decisions about capacity planning and network growth. 
+
+Traffix Manager works with any device (from 3Com or other vendors) that supports the "RMON2 MIB".
+Device View
+
+The Device View application is a device configuration tool. When you troubleshoot your network, you can use Device View to determine or change a device's configuration. You can also use Device View to look at a device's statistics and to set alarms.
+
+Device View manages only 3Com devices.
+
+See the Device View Help for which 3Com devices are supported by Device View.
+
+You can also use Transcend Upgrade Manager, which is one of the Network Admin Tools applications, to perform bulk software upgrades on devices.
+
+Network Management Platforms
+
+As part of your troubleshooting toolbox, your network management platform is the first place to go to view the overall health of your network. With the platform, you can understand the logical configuration of your network and configure views of your network to understand how devices work together and the role that they play in the users' work. The network management platform that supports your Transcend software installation can provide valuable troubleshooting tools. Transcend runs on several platforms within the NT and UNIX environments.
+
+The platform discovers the devices. Transcend imports that information from the platform to populate the core database. Unless you are rediscovering, the user must manually update the platform
+
+Using this device database, a map displays the graphical representation of your network. Each device on your network appears as a symbol (icon) on the map. You can configure views of your network to show devices on the same subnetworks or floors.
+
+You can monitor network performance and diagnose network performance and connectivity problems. You can also:
+
+    * Take a snapshot of your network in its normal state. The snapshot records the state of your network at a particular instant. If you later have network performance problems, you can compare the current state of your network to the snapshot.
+
+    * Quickly determine the connectivity status of a device by noting the color of its map symbol. Red usually means that communication with a device has ceased.
+
+    * Diagnose connectivity problems by determining whether two devices can communicate. If they can communicate, then examine the route between the devices, the number of packets that were sent and lost, and the roundtrip time between the two devices.
+
+    * Manage MIB information (for example, collecting and storing MIB data for trend analysis and graphing) using MIB queries. Transcend compiles MIBs and allows you to navigate up and down the "MIB Tree" to retrieve MIB objects from devices. You can set thresholds for MIB data and generate events when a threshold is exceeded.
+
+    * Configure the software to act on certain events. The Event Categories window informs you of any unexpected events (which arrive in the form of traps). 
+
+For more information, see the documentation that is shipped with your software.
+
+3Com SmartAgent Embedded Software
+
+Traditional Simple Network Management Protocol (SNMP) management places the burden of collecting network management information on the management station. In this traditional model, software agents collect information about throughput, record errors or packet overflows, and measure performance based on established thresholds. Through a polling process, agents pass this information to a centralized network management station whenever they receive an SNMP query. Management applications then make the data useful and alert the user if there are problems on the device.
+
+For more information about traditional SNMP management, see "SNMP Operation".
+
+As a useful companion to traditional network management methods, 3Com's SmartAgent® technology places management intelligence into the software agent that runs within a 3Com device. This scalable solution reduces the amount of computational load on the management station and helps minimize management-related network traffic.
+
+SmartAgent software, which uses the "RMON MIB", is self-monitoring, collecting and analyzing its own statistical, analytical, and diagnostic data. In this way, you can conduct network management by exception - that is, you are notified only if a problem occurs. Management by exception is unlike traditional SNMP management, in which the management software collects all data from the device through polling.
+
+SmartAgent software works autonomously and reports to the network management station whenever an exceptional network event occurs. The software can also take direct action without involving the management station. Devices that contain SmartAgent software may be able to:
+
+    * Perform broadcast throttling to minimize the flow of broadcast traffic on your network
+
+    * Monitor the ratio of good frames to bad frames
+
+    * Switch a resilient link pair to the standby path if the primary path corrupts frames
+
+    * Report if traffic on vital segments drops below minimum usage levels
+
+    * Disable a port for five seconds to clear problems, and then automatically reconnect it
+
+      To configure these advanced SmartAgent software features, see your device documentation.
+
+The Transcend NCS applications LANsentry Manager and Traffix Manager make RMON data that the SmartAgent software collect more usable by summarizing and correlating important information.
+
+Other Commonly Used Tools
+
+These commonly used tools can also help you troubleshoot your network:
+
+    * Network software, such as Ping, Telnet, and FTP and TFTP. You can use these applications to troubleshoot, configure, and upgrade your system.
+
+    * Network monitoring devices, such as Analyzers and Probes.
+
+    * Tools, such as Cable Testers, for working on physical problems.
+
+      Many of the tools that are discussed in this section are only useful in TCP/IP networks.
+
+Ping
+
+Packet Internet Groper (Ping) allows you to quickly verify the connectivity of your network devices. Ping attempts to transmit a packet from one device to a station on the network, and listens for the response to ensure that it was correctly received. You can validate connections on the parts of your network by pinging different devices:
+
+    * A successful response indicates that a valid network path exists between your station and the remote host and that the remote host is active.
+
+    * Slower response times than normal can indicate that the path is congested or obstructed.
+
+    * A failed response indicates that a connection is broken somewhere; use the message to help locate the problem. See Tips on Interpreting Ping Messages.
+
+      Some network devices, like the CoreBuilder 5000, must be configured to be able to respond to Ping messages. If you are not receiving responses from a device, first make sure that it is set up to be a Ping responder.
+
+Strategies for Using Ping
+
+Follow these strategies for using Ping:
+
+    * Ping devices when your network is operating normally so that you have a performance baseline for comparison. See "Identifying Your Network's Normal Behavior" for more information.
+
+    * Ping by IP address when:
+
+          o You want to test devices on different subnetworks. This method allows you to Ping your network segments in an organized way, rather than having to remember all the hostnames and locations.
+
+          o Your Domain Name System (DNS) server is down and your system cannot look up host names properly. You can Ping with IP addresses even if you cannot access hostname information. 
+
+    * Ping by hostname when you want to identify DNS server problems.
+
+    * To troubleshoot problems that involve large packet sizes, Ping the remote host repeatedly, increasing the packet size each time.
+
+    * To determine if a link is erratic, perform a continuous Ping (using ping -s on UNIX), which indicates the time that it takes the device to respond to each Ping.
+
+    * To determine a route taken to a destination, use the trace route function (tracert).
+
+    * Consider creating a Ping script that periodically sends a Ping to all necessary networking devices. If a Ping failure message is received, the script can perform some action to notify you of the problem, such as paging you.
+
+    * Use the Ping functions of your network management platform. For example, in your HP OpenView map, select a device and click the right mouse button to gain access to ping functions. 
+
+Tips on Interpreting Ping Messages
+
+Use the following ping failure messages to troubleshoot problems:
+
+    No reply from <destination> 
+
+Indicates that the destination routes are available but that there is a problem with the destination itself.
+
+    <destination> is unreachable 
+
+Indicates that your system does not know how to get to the destination. This message means either that routing information to a different subnetwork is unavailable or that a device on the same subnetwork is down.
+
+    ICMP host unreachable from gateway 
+
+Indicates that your system can transmit to the target address using a gateway, but that the gateway cannot forward the packet properly because either a device is misconfigured or the gateway is not operating.
+Telnet
+
+Telnet, which is a login and terminal emulation program for Transmission Control Protocol/Internet Protocol (TCP/IP) networks, is a common way to communicate with an individual device. You log in to the device (a remote host) and use that remote device as if it were a local terminal.
+
+If you have established an out-of-band Telnet connection with a device, you can use Telnet to communicate with that device even if the network is unavailable. This feature makes Telnet one of the most frequently used network troubleshooting tools. Usually, all device statistics and configuration capabilities are accessible by using Telnet to connect to the device's console. For more information about setting up an out-of-band connection, see "Using Telnet, Serial Line, and Modem Connections".
+
+You can invoke the Telnet application on your local system and set up a link to a Telnet process that is running on a remote host. You can then run a program that is located on a remote host as if you were working at the remote system.
+FTP and TFTP
+
+Most network devices support either the File Transfer Protocol (FTP) or the Trivial File Transfer Protocol (TFTP) for downloading updates of system software. Updating system software is often the solution to networking problems that are related to agent problems. Also, new software features may help correct a networking problem.
+
+FTP provides flexibility and security for file transfer by:
+
+    * Accepting many file formats, such as ASCII and binary
+
+    * Using data compression
+
+    * Providing Read and Write access so that you can display, create, and delete files and directories
+
+    * Providing password protection 
+
+TFTP is a simple version of FTP that does not list directories or require passwords. TFTP only transfers files to and from a remote server.
+Analyzers
+
+An analyzer, which is often called a Sniffer, is a network device that collects network data on the segment to which it is attached, a process called packet capturing. Software on the device analyzes this data, which is a process referred to as protocol analysis. Most analyzers can interpret different types of protocol traffic, such as TCP/IP, AppleTalk, and Banyan VINES traffic.
+
+You usually use analyzers for reactive troubleshooting - when you see a problem somewhere on your network, you attach an analyzer to capture and interpret the data from that area. Analyzers are particularly helpful for identifying intermittent problems. For example, if your network backbone has experienced moments of instability that prevent users from logging on to the network, you can attach an analyzer to the backbone to capture the intermittent problems when they happen again.
+Probes
+
+Like Analyzers, a probe is a network device that collects network data. Depending on its type, a probe can collect data from multiple segments simultaneously. It stores the collected data and transfers the data to an analysis site when requested. Unlike an analyzer, probes do not interpret data.
+
+A probe can be either a stand-alone device or an agent in a network device. The Transcend Enterprise Monitor 500 series and the SuperStack® II Monitor series are stand-alone RMON probes. LANsentry Manager and Traffix Manager use data from probes that comply with the "RMON MIB" or the "RMON2 MIB".
+
+You can use a probe daily to determine the health of your network. The Transcend NCS applications can interpret and report this data, alerting you to possible problems so that you can proactively manage your network. For example, an RMON2 probe can help you to analyze traffic patterns on your network. Use this data to make decisions about reconfiguring devices and end stations as needed.
+Cable Testers
+
+Cable testers examine the electrical characteristics of the wiring. They are most commonly used to ensure that building wiring and cables meet Category 5, 4, and 3 standards. For example, network technologies such as Fast Ethernet require the cabling to meet Category 5 requirements. Testers are also used to find defective and broken wiring in a building. 
