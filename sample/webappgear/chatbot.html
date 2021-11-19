@@ -16,24 +16,18 @@
     <script type="text/javascript" src="<WEBBASEURL>/res/config/WebsiteConfig.js"></script>
     <script type="text/javascript" src="<WEBBASEURL>/res/config/WebsiteSetting.js"></script>
     <script type="text/javascript" src="<CDNURL>/res/js/production/ardvro.core.package.js"></script>
+    <script type="text/javascript" src="<CDNURL>/ardvro/ardvro.js"></script>
     <script type="text/javascript" src="<CDNURL>/res/js/public.js"></script>
     <script type="text/javascript">
-        <?php
-			include "res/ardvro.php";
-      	?>
-    </script>   
-    <script type="text/javascript">
-        const WEBSOCKETURL = "<WEBSOCKETURL>";
-        const WEBBASEURL = "<WEBBASEURL>";
-        const CDNURL = "<CDNURL>";
-        window.onload = function ()
-        {
-            Facade.Start(true);
-        };
-        (function ()
-        {
-            Loader.InitDependencies(WEBBASEURL, CDNURL, [ArdvroCoreDependencies]);
-        })();
+            const WEBSOCKETURL = "<WEBSOCKETURL>";
+            const WEBBASEURL = "<WEBBASEURL>";
+            const CDNURL = "<CDNURL>";
+            window.onload = function () {
+                Facade.Start(true);
+            };
+            (function () {
+                Loader.InitDependencies(WEBBASEURL, CDNURL, [ArdvroCoreDependencies]);
+            })();
     </script>
 </head>
 <body style="overflow-x:hidden;">
