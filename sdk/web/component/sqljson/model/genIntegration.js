@@ -1,0 +1,297 @@
+﻿var genIntegration = function genIntegration()
+{
+    this.Name = "genIntegration";
+    this.Label = "Integrations";
+    this.Columns = [
+        {
+            StatusType: StatusType.View,
+            Name: "Id",
+            InputType: InputType.Number,
+            Required: true,
+            KeyType: KeyType.Primary,
+            MinimumValue: DataType.Int.Min,
+            MaximumValue: DataType.Int.Max,
+            DecimalPoint: 0,
+            DefaultValue: 0,
+            Label: "Id",
+            Note: "Id",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "Status",
+            InputType: InputType.Select,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 128,
+            DecimalPoint: 0,
+            DefaultValue: 1,
+            Label: "Status",
+            Note: "Status",
+            ReferenceSchema: null,
+            ReferenceColumn: "Id",
+            ReferenceName: "Name",
+            Options: [
+                {
+                    Id: 0,
+                    Name: "Draft"
+                },
+                {
+                    Id: 1,
+                    Name: "Active"
+                },
+                {
+                    Id: 2,
+                    Name: "In Progress"
+                },
+                {
+                    Id: 3,
+                    Name: "Cancel"
+                }
+            ]
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Updated",
+            InputType: InputType.DateTime,
+            Required: true,
+            KeyType: null,
+            MinimumValue: null,
+            MaximumValue: null,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "Updated",
+            Note: "Last Updated Time",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Updater",
+            InputType: InputType.AlphaNumeric,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 85,
+            DecimalPoint: null,
+            DefaultValue: "",
+            Label: "Updater",
+            Note: "Last Updated By",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "ssoWorkgroupId",
+            InputType: InputType.Select,
+            Required: true,
+            KeyType: "",
+            MinimumValue: DataType.Int.Min,
+            MaximumValue: DataType.Int.Max,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "Workgroup",
+            Note: "Workgroup",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "Name",
+            InputType: InputType.AlphaNumeric,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 85,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "Name",
+            Note: "Name",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "IntegrationType",
+            InputType: InputType.Select,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 32,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "IntegrationType",
+            Note: "IntegrationType",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: ["SqlIntegration", "WebApiIntegration", "AssemblyIntegration" ]
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "Authentication",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "Authentication",
+            Note: "If you select WebApiIntegration then input it with the authentication URL. If you select SqlIntegration then input it with a connection string. Not Applicable for AssemblyIntegration.",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "AuthenticationFormat",
+            InputType: InputType.Select,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "AuthenticationFormat",
+            Note: "If you select WebApiIntegration with POST then the options:[application/json, application/x-www-form-urlencoded]. Only applicable for WebApiIntegration.",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: ["application/json", "application/x-www-form-urlencoded"]
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "AuthenticationField",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "AuthenticationField",
+            Note: "The json field that contains token, if flat string leave it empty. Only applicable for WebApiIntegration.",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "AuthenticationHeader",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "AuthenticationHeader",
+            Note: "The authentication header name on HTTP Request Header, ie: Authorization, X-API-KEY. Only applicable for WebApiIntegration.",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "Command",
+            InputType: InputType.TextArea,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 8192,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "Command",
+            Note: "If you select SqlIntegration that input it with the SQL command. If you select AssemblyIntegration, then input it with the method name of an object. If you select WebApiIntegration the input it with the url",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "CommandFormat",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "CommandFormat",
+            Note: "If you select WebApiIntegration then enter [application/x-www-form-urlencoded, application/json, ''], if empty than HTTP GET will be executed, else HTTP POST. If you select AssemblyIntegration then field it with the fully qualified assembly name. Not Applicable for SqlIntegration.",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "CommandResult",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "CommandResult",
+            Note: "Only applicable for WebApiIntegration, if empty then the raw string will be return",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: ["application/json", "application/x-www-form-urlencoded"]
+        },
+        {
+            StatusType: StatusType.Edit,
+            Name: "Note",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: null,
+            DefaultValue: null,
+            Label: "Note",
+            Note: "Note",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        }
+    ];
+
+    this.Associations = [
+        {
+            Name: "genIntegrationRoles",
+            Label: "Integration Roles",
+            Schema: "genIntegrationRole"
+        },
+        {
+            Name: "genIntegrationMaps",
+            Label: "Integration Maps",
+            Schema: "genIntegrationMap"
+        },
+        {
+            Name: "genIntegrationLogs",
+            Label: "Integration Logs",
+            Schema: "genIntegrationLog"
+        }
+    ];
+};

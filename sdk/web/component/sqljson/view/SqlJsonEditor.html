@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ARDVRO | SQL JSON Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="distribution" content="global" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <script type="text/javascript" src="<WEBBASEURL>/res/config/PageConfig.js"></script>
+    <script type="text/javascript" src="<WEBBASEURL>/res/config/WebsiteConfig.js"></script>
+    <script type="text/javascript" src="<WEBBASEURL>/res/config/WebsiteSetting.js"></script>
+    <script type="text/javascript" src="<CDNURL>/res/js/production/ardvro.core.package.js"></script>
+    <script type="text/javascript" src="<CDNURL>/ardvro/ardvro.js"></script>
+    <script type="text/javascript">
+        const WEBSOCKETURL = "<WEBSOCKETURL>";
+        const WEBBASEURL = "<WEBBASEURL>";
+        const CDNURL = "<CDNURL>";
+        window.onload = function ()
+        {
+            Website.Start(
+                new WebsiteConfig(),
+                new WebsiteSetting(),
+                new PageConfig(),
+                [],
+                [],
+                function (startup)
+                {
+                }
+            );
+        };
+        (function ()
+        {
+            Loader.InitDependencies(WEBBASEURL, CDNURL, [ArdvroCoreDependencies]);
+        })();
+    </script>
+</head>
+<body style="overflow-x:hidden;">
+    <pre id="debugDiv" style="background:#000000; color:#ffffff;">
+    </pre>
+</body>
+</html>

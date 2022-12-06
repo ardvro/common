@@ -1,0 +1,231 @@
+﻿var ssoApplication = function ssoApplication()
+{
+    this.Name = "ssoApplication";
+    this.Label = "Application";
+    this.Columns = [
+        {
+            StatusType: StatusType.View,
+            Name: "Id",
+            InputType: InputType.Number,
+            Required: true,
+            KeyType: KeyType.Primary,
+            MinimumValue: DataType.Int.Min,
+            MaximumValue: DataType.Int.Max,
+            DecimalPoint: 0,
+            DefaultValue: 0,
+            Label: "Id",
+            Note: "Id",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Status",
+            InputType: InputType.Select,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 128,
+            DecimalPoint: 0,
+            DefaultValue: 0,
+            Label: "Status",
+            Note: "Status",
+            ReferenceSchema: null,
+            ReferenceColumn: "Id",
+            ReferenceName: "Name",
+            Options: [
+                {
+                    Id: 0,
+                    Name: "Draft"
+                },
+                {
+                    Id: 1,
+                    Name: "Active"
+                },
+                {
+                    Id: 2,
+                    Name: "In Progress"
+                },
+                {
+                    Id: 3,
+                    Name: "Cancel"
+                }
+            ]
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Updated",
+            InputType: InputType.DateTime,
+            Required: true,
+            KeyType: null,
+            MinimumValue: null,
+            MaximumValue: null,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "Updated",
+            Note: "Last Updated Time",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Updater",
+            InputType: InputType.AlphaNumeric,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 85,
+            DecimalPoint: 0,
+            DefaultValue: "",
+            Label: "Updater",
+            Note: "Last Updated By",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Code",
+            InputType: InputType.Text,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 36,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "Code",
+            Note: "Code",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Name",
+            InputType: InputType.Text,
+            Required: true,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 85,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "Name",
+            Note: "Name",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "BaseKey",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 36,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "Base Key",
+            Note: "This is the base key to generate AES key each time request response established. The key generation happen on client and server, therefore no keys been transmitted. This key will change every time a connection were established.",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "AesSecretKey",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 32,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "AesSecretKey",
+            Note: "This key will use by web client to encrypt cookie jwt",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "AesInitVector",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 32,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "AesInitVector",
+            Note: "This key will use by web client to encrypt cookie jwt",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.View,
+            Name: "Url",
+            InputType: InputType.Text,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 255,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "Url",
+            Note: "Url",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Hidden,
+            Name: "ClientRsaKey",
+            InputType: InputType.TextArea,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 4096,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "ClientRsaKey",
+            Note: "Client Rsa Private Key",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        },
+        {
+            StatusType: StatusType.Hidden,
+            Name: "ServerRsaKey",
+            InputType: InputType.TextArea,
+            Required: false,
+            KeyType: "",
+            MinimumValue: 0,
+            MaximumValue: 4096,
+            DecimalPoint: 0,
+            DefaultValue: null,
+            Label: "ServerRsaKey",
+            Note: "Server Rsa Public Key",
+            ReferenceSchema: null,
+            ReferenceColumn: null,
+            ReferenceName: null,
+            Options: null
+        }
+    ];
+    this.Associations = [
+
+    ];
+};

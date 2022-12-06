@@ -1,0 +1,18 @@
+﻿<div>
+    <div id="{{FormId}}_NotificationTable" class="divtable" style="width:100%;">
+        <repeater Id="{{FormId}}_Notifications" Tag="div" DataListName="List" elementType="Body">
+            <div style="cursor:pointer;" class="notificationtable_{{Status}} listrow">
+                <div style="font-size:small; color:dimgray; padding-left: 13px;">
+                    <span>{{Created}}</span> | <span>{{Sender}}</span> | <span>{{Receiver}}</span><br />
+                </div>
+                <div class="truncatetext">{{Message}}</div>
+                <div class="truncatetext" style="font-size:small; color:darkslateblue;">
+                    <span>{{Url}}</span>
+                </div>
+            </div>
+        </repeater>
+        <div id="tfoot_orders" elementType="Footer">
+
+        </div>
+    </div>
+</div>
