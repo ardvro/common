@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFramework>net7.0</TargetFramework>
+      <Authors>ARDVRO</Authors>
+      <Company>ARDVRO</Company>
+      <Copyright>ARDVRO</Copyright>
+      <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ardvro.adapter\ardvro.adapter.acc\ardvro.adapter.acc.csproj" />
+    <ProjectReference Include="..\..\ardvro.adapter\ardvro.adapter.ais\ardvro.adapter.ais.csproj" />
+    <ProjectReference Include="..\..\ardvro.adapter\ardvro.adapter.gen\ardvro.adapter.gen.csproj" />
+    <ProjectReference Include="..\..\ardvro.adapter\ardvro.adapter.sso\ardvro.adapter.sso.csproj" />
+    <ProjectReference Include="..\..\ardvro.adapter\ardvro.adapter.wfe\ardvro.adapter.wfe.csproj" />
+    <ProjectReference Include="..\..\ardvro.core\ardvro.core.ext\ardvro.core.ext.csproj" />
+    <ProjectReference Include="..\..\ardvro.core\ardvro.core.lib\ardvro.core.lib.csproj" />
+  </ItemGroup>
+
+</Project>
