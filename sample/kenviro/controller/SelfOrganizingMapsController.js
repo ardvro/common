@@ -15,7 +15,7 @@
                 NeuronCount: neuronCounts,
             }
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/SelfOrganizingMapsWorkflow/Learning", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/SelfOrganizingMaps/Learning", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
@@ -35,7 +35,7 @@
                 NeuronCount: neuronCounts,
             }
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/SelfOrganizingMapsWorkflow/Compute", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/SelfOrganizingMaps/Compute", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });

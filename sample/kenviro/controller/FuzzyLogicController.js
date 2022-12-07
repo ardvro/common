@@ -10,7 +10,7 @@
             Criterias: criteriaMatrix,
             Lines: linePoints
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/FuzzyLogicWorkflow/Fuzzification", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/FuzzyLogic/Fuzzification", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
@@ -22,7 +22,7 @@
             FuzzyLogicType: fuzzyLogicType,
             FuzzySets: fuzzySets3d
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/FuzzyLogicWorkflow/GenerateCombinationRules", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/FuzzyLogic/GenerateCombinationRules", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
@@ -38,7 +38,7 @@
             TargetCriterias: targetCriterias,
             Rules: rules
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/FuzzyLogicWorkflow/Compute", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/FuzzyLogic/Compute", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });

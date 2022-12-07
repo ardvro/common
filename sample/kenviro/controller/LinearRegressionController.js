@@ -10,7 +10,7 @@
             Alpha: alpha,
             Delta: delta,
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/LinearRegressionWorkflow/Compute", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/LinearRegression/Compute", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
@@ -22,7 +22,7 @@
             LinearRegressionType: linearRegressionType,
             Inputs: inputs
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/LinearRegressionWorkflow/Learning", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/LinearRegression/Learning", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
@@ -34,7 +34,7 @@
             LinearRegressionType: linearRegressionType,
             Inputs: inputs
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/LinearRegressionWorkflow/Run", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/LinearRegression/Run", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });

@@ -14,7 +14,7 @@
                 Layers: layers
             }
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/BackpropagationWorkflow/Learning", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/Backpropagation/Learning", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
@@ -33,7 +33,7 @@
                 Layers: layers
             }
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/BackpropagationWorkflow/Compute", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/Backpropagation/Compute", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });

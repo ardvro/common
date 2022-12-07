@@ -12,7 +12,7 @@
             Rules: rules,
             Targets: targets,
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/EvolutionaryWorkflow/Compute", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/Evolutionary/Compute", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });

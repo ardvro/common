@@ -5,7 +5,7 @@
     ctrl.Find = function (id, onResponse)
     {
         let args = [id];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/Find", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/Find", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -14,7 +14,7 @@
     ctrl.GetSubjects = function (onResponse)
     {
         let args = [];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/GetSubjects", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/GetSubjects", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -23,7 +23,7 @@
     ctrl.GetTopics = function (subjectId, onResponse)
     {
         let args = [subjectId];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/GetTopics", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/GetTopics", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -32,7 +32,7 @@
     ctrl.GetSentences = function (topicId, onResponse)
     {
         let args = [topicId];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/GetSentences", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/GetSentences", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -41,7 +41,7 @@
     ctrl.GetDocuments = function (subjectId, onResponse)
     {
         let args = [subjectId];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/GetDocuments", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/GetDocuments", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -49,7 +49,7 @@
 
     ctrl.Generate = function (data, onResponse)
     {
-        cfg.Connector.Submit(data, "ardvro/wf/kenviro/TextMiningWorkflow/Generate", function (box)
+        cfg.Connector.Submit(data, "ardvro/component/kenviro/TextMining/Generate", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -63,7 +63,7 @@
             RejectedWords: rejectedWords,
             FilterPosTags: filterPosTags
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/InformationRetrieval", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/InformationRetrieval", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -72,7 +72,7 @@
     ctrl.InformationExtraction = function (topic, text, onResponse)
     {
         let args = [topic, text];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/TextSummarization", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/TextSummarization", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -84,7 +84,7 @@
             Subject: subject,
             Documents: documents,
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/TextSummarization", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/TextSummarization", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -93,7 +93,7 @@
     ctrl.PosTagging = function (text, onResponse)
     {
         let args = [text];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/PosTagging", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/PosTagging", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -102,7 +102,7 @@
     ctrl.SplitSentences = function (text, onResponse)
     {
         let args = [text];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/SplitSentences", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/SplitSentences", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -111,7 +111,7 @@
     ctrl.RestructureTopics = function (aisTmId, onResponse)
     {
         let args = [aisTmId];
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/TextMiningWorkflow/RestructureTopics", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/TextMining/RestructureTopics", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });

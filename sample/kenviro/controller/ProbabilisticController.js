@@ -9,7 +9,7 @@
             Inputs: inputs,
             Weights: weights
         };
-        cfg.Connector.Submit(args, "ardvro/wf/kenviro/ProbabilisticWorkflow/Compute", function (box)
+        cfg.Connector.Submit(args, "ardvro/component/kenviro/Probabilistic/Compute", function (box)
         {
             callback != null ? callback(box == null ? null : box.Data) : null;
         });
