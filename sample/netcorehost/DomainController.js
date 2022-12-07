@@ -4,7 +4,7 @@ var DomainController = function DomainController(cfg)
 
     ctrl.CheckDomain = function (domainName, onResponse)
     {
-        cfg.Connector.Submit(domainName, "ardvro/wf/netcorehost/DomainWorkflow/CheckDomain", function (box)
+        cfg.Connector.Submit(domainName, "ardvro/component/netcorehost/Domain/CheckDomain", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
@@ -12,7 +12,7 @@ var DomainController = function DomainController(cfg)
 
     ctrl.CheckDomainNs = function (domainName, onResponse)
     {
-        cfg.Connector.Submit(domainName, "ardvro/wf/netcorehost/DomainWorkflow/CheckDomainNs", function (box)
+        cfg.Connector.Submit(domainName, "ardvro/component/netcorehost/Domain/CheckDomainNs", function (box)
         {
             onResponse != null ? onResponse(box == null ? null : box.Data) : null;
         });
